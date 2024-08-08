@@ -1,0 +1,5 @@
+"0","heizung <- restatis::gen_table(""3000G-1008"", "
+"0","                               database = ""zensus"", "
+"0","                               regionalvariable = ""GEOGM4"","
+"0","                               language = ""de"")"
+"0","head(heizung[,9:17])"

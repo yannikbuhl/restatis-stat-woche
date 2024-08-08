@@ -1,0 +1,157 @@
+---
+title: "{restatis}"
+subtitle: "Ein Softwarepaket für R zur Arbeit mit Zensusdatenbank, GENESIS und regionalstatistik.de"
+author: "Yannik Buhl, Statistisches Bundesamt"
+institute: "Statistische Woche 2024, Regensburg"
+format: 
+  revealjs: 
+    multiplex: true
+    theme: ["pp.scss"]
+    slide-number: c/t
+    fontcolor: "#262d36"
+    highlight-style: ayu-mirage
+    height: 900
+    width: 1600
+include-in-header:
+  - text: |
+      <style type="text/css">
+      ul li ul li {
+        font-size: 0.8em;
+      }
+      </style>
+---
+
+## Was ist {restatis} und was bringt es mit?
+
+<br>
+
+::: columns
+::: {.column width="50%"}
+### Das Paket
+
+-   API-Wrapper für:
+    -   GENESIS (StBA-Datenbank)
+    -   Zensusdatenbank <br> (Zensus 2022)
+    -   www.regionalstatistik.de
+-   Entwickelt als Projekt <br> von [CorrelAid](www.correlaid.org)
+    -   Keine Zugehörigkeit zum StBA <br> oder dem Statistischen Verbund!
+    -   Erste Version 2022,<br> Update 2024
+:::
+
+::: {.column width="50%"}
+### Features
+
+-   Durchsuche Datenbanken nach:
+
+    -   Tabellen & Cubes <br> (inkl. EVAS-Codes)
+    -   Metadaten, Variablen, Werte
+
+-   Datendownload <br> (Tabellen, Cubes)
+
+-   Weitere Informationen abrufbar <br> (z.B. Sonderzeichen)
+:::
+:::
+
+## Installation
+
+<br>
+
+-   Installation über CRAN:
+
+```{r eval=FALSE, echo=TRUE}
+
+# CRAN-Veröffentlichung
+install.packages("restatis")
+```
+
+<br>
+
+-   Entwicklungsversion über GitHub-Repository
+
+```{r eval=FALSE, echo=TRUE}
+# Development-Version
+remotes::install_github("CorrelAid/restatis")
+```
+
+## Anwendungsbeispiel
+
+```{r echo=FALSE}
+library(pacman)
+pacman::p_load(dplyr, restatis)
+```
+
+-   Szenario: Wir sollen eine Analyse zum Thema "Heizungsarten" durchführen, basierend auf der Gebäude- und Wohnungszählung (GWZ)
+-   Wir suchen nach Objekten in der Zensusdatenbank zum Thema "Heizung" und ziehen aus der Ergebnis-Liste nur die Tabellen
+
+```{r echo=TRUE, cache=TRUE}
+restatis::gen_find(term = "Heizung", 
+                   database = "zensus", 
+                   verbose = FALSE, 
+                   error.ignore = TRUE) %>% 
+  magrittr::extract2("Tables") %>% # restatis liefert Ergebnisse i.d.R. als Listen
+  head(2)
+
+```
+
+## Anwendungsbeispiel
+
+-   Nun wollen wir eine der Tabellen herunterladen (Gemeindeebene)
+-   Wir nutzen hierfür den `Code` der Tabelle
+
+```{r echo=TRUE, cache=TRUE}
+heizung <- restatis::gen_table(name = "3000G-1008", 
+                               database = "zensus")
+
+head(heizung, 4)
+```
+
+-   Das wollen wir nicht - es sind Daten für ganz Deutschland
+-   Aber es scheint eine Variable mit Geo-Bezug zu geben (`GEODL1`)
+
+## Anwendungsbeispiel
+
+-   Also müssen wir sehen, welche weiteren Variablen wir noch für die Statistik (`3000G`) wählen können
+
+```{r echo=TRUE}
+heiz_vars <- restatis::gen_var2stat(code = "3000G", 
+                                    database = "zensus", 
+                                    verbose = FALSE)
+
+heiz_vars$Variables[11:16,]
+```
+
+## Anwendungsbeispiel
+
+-   `GEOGM4` ist die Variable, die wir gesucht haben
+-   Also nutzen wir sie über den Parameter `regionalvariable`
+
+```{r echo=TRUE, cache=TRUE}
+heizung <- restatis::gen_table("3000G-1008", 
+                               database = "zensus", 
+                               regionalvariable = "GEOGM4",
+                               language = "de")
+
+head(heizung[,9:17])
+```
+
+## Anwendungsbeispiel
+
+-   Um die prozentualen Anteile der Energieträger pro Gemeinde zu bekommen, sind noch einige Verarbeitungen notwendig
+
+```{r echo=TRUE}
+heizung_filter <- heizung %>% filter(`2_variable_attribute_label` != "Insgesamt" & 
+                                     value_unit == "%")
+
+unique(heizung_filter$`2_variable_attribute_label`)
+
+```
+
+## Anwendungsbeispiel
+
+-   Karte mit dem größten Anteil pro Gemeinde
+
+-   Welche "Funktionen" fehlen noch?
+
+-   pystatis-Folie
+
+-   <https://www.zeit.de/wirtschaft/2024-06/zensus-2022-heizung-oel-gas-fernwaerme-waermepumpe-wohnungen>

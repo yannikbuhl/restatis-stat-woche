@@ -1,0 +1,15 @@
+{
+  "hash": "db83a3d36cb31627ba1b09d9d3427641",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"{restatis} \"\nsubtitle: \"Ein Softwarepaket für R zur Arbeit mit Zensusdatenbank, GENESIS und regionalstatistik.de\"\nauthor: \"Yannik Buhl, Statistisches Bundesamt\"\ninstitute: \"Statistische Woche 2024, Regensburg\"\nformat: beamer\ntheme: metropolis\n---\n\n\n## Was ist {restatis} und was bringt es mit?\n\n### Das Paket\n\n-   API-Wrapper für:\n\n    -   GENESIS (StBA-Datenbank)\n\n    -   Zensusdatenbank (Zensus 2022)\n\n    -   www.regionalstatistik.de\n\n### Features im Überblick\n\n-   Durchsuche Datenbanken nach:\n    -   Tabellen & Cubes (inkl. Codes)\n    -   Metadaten, Variablen, Werten\n-   Datendownload (Tabellen, Cubes)\n\n## Installation\n\n\n::: {.cell}\n\n```{.r .cell-code}\n# CRAN-Veröffentlichung\ninstall.packages(\"restatis\")\n\n# Development-Version\nremotes::install_github(\"CorrelAid/restatis\")\n```\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": null,
+    "postProcess": false
+  }
+}
