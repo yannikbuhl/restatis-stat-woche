@@ -18,6 +18,11 @@ include-in-header:
       ul li ul li {
         font-size: 0.8em;
       }
+      
+      .figure {
+      margin: 0 !important;
+      }
+      
       </style>
 ---
 
@@ -49,6 +54,10 @@ include-in-header:
 -   Datendownload <br> (Tabellen, Cubes)
 
 -   Weitere Informationen abrufbar <br> (z.B. Sonderzeichen)
+
+-   Caching von API-Calls <br> mit `memoise`
+
+    -   R-Session neu starten für Reset
 :::
 :::
 
@@ -77,26 +86,37 @@ remotes::install_github("CorrelAid/restatis")
 
 ```{r echo=FALSE}
 library(pacman)
-pacman::p_load(dplyr, restatis)
+pacman::p_load(dplyr, restatis, sf, ggplot2, lubridate, microplot, Cairo)
 ```
 
--   Szenario: Wir sollen eine Analyse zum Thema "Heizungsarten" durchführen, basierend auf der Gebäude- und Wohnungszählung (GWZ)
+-   Szenario: Wir sollen eine Analyse zum Thema "Heizungsarten" durchführen, basierend auf der Gebäude- und Wohnungszählung (GWZ) und nutzen hier für die Zensusdatenbank
 -   Wir suchen nach Objekten in der Zensusdatenbank zum Thema "Heizung" und ziehen aus der Ergebnis-Liste nur die Tabellen
 
 ```{r echo=TRUE, cache=TRUE}
 restatis::gen_find(term = "Heizung", 
                    database = "zensus", 
-                   verbose = FALSE, 
-                   error.ignore = TRUE) %>% 
+                   verbose = FALSE) %>% 
   magrittr::extract2("Tables") %>% # restatis liefert Ergebnisse i.d.R. als Listen
-  head(2)
+  head(2) # Nur ein Auszug aus 49 Tabellen
 
 ```
 
 ## Anwendungsbeispiel
 
--   Nun wollen wir eine der Tabellen herunterladen (Gemeindeebene)
--   Wir nutzen hierfür den `Code` der Tabelle
+-   Alternativ: Suche über die `gen_catalogue()`-Funktion, Voraussetzung: Kenntnisse zu Statistik-Codes
+-   Bsp.: Gebäude-Daten beginnen mit **3**
+
+```{r eval=TRUE, echo=TRUE, cache=TRUE}
+catalogue <- restatis::gen_catalogue("3*", 
+                                     database = "zensus", verbose = FALSE)
+
+print(head(catalogue$Tables$`3 - Wohnen, Umwelt`, 7))
+
+```
+
+## Anwendungsbeispiel
+
+-   Nun wollen wir eine der Tabellen herunterladen (Gemeindeebene), <br> hierfür nutzen wir den `Code` der Tabelle
 
 ```{r echo=TRUE, cache=TRUE}
 heizung <- restatis::gen_table(name = "3000G-1008", 
@@ -105,8 +125,7 @@ heizung <- restatis::gen_table(name = "3000G-1008",
 head(heizung, 4)
 ```
 
--   Das wollen wir nicht - es sind Daten für ganz Deutschland
--   Aber es scheint eine Variable mit Geo-Bezug zu geben (`GEODL1`)
+-   Das wollen wir nicht - es sind Daten für ganz Deutschland. Aber es scheint eine Variable mit Geo-Bezug zu geben (`GEODL1`)
 
 ## Anwendungsbeispiel
 
@@ -136,22 +155,141 @@ head(heizung[,9:17])
 
 ## Anwendungsbeispiel
 
--   Um die prozentualen Anteile der Energieträger pro Gemeinde zu bekommen, sind noch einige Verarbeitungen notwendig
+-   Nun kennen wir die Tabelle, die wir möchten
+-   Aber welche Informationen gibt es zu ihr?
 
-```{r echo=TRUE}
-heizung_filter <- heizung %>% filter(`2_variable_attribute_label` != "Insgesamt" & 
-                                     value_unit == "%")
+```{r echo=TRUE, eval=TRUE, cache=TRUE}
+metadata_table <- gen_metadata("3000G-1011", 
+                               database = "zensus", category = "table", verbose = FALSE)
+print(metadata_table$Structure$Rows)
 
-unique(heizung_filter$`2_variable_attribute_label`)
+metadata_variable <- gen_metadata("HZGAT1", 
+                                  database = "zensus", category = "variable", verbose = FALSE)
+print(metadata_variable$General)
+print(metadata_variable$Information)
 
 ```
 
 ## Anwendungsbeispiel
 
--   Karte mit dem größten Anteil pro Gemeinde
+-   Um die prozentualen Anteile der Energieträger pro Gemeinde zu bekommen, sind noch einige Verarbeitungen notwendig
 
--   Welche "Funktionen" fehlen noch?
+```{r echo=TRUE}
+heizung_filter <- heizung %>% 
+                    filter(`2_variable_attribute_label` != "Insgesamt" & 
+                           value_unit == "%") %>% 
+                    group_by(`1_variable_attribute_code`) %>% 
+                    slice_max(value, with_ties = FALSE) %>% 
+                    ungroup()
 
--   pystatis-Folie
+unique(heizung_filter$`2_variable_attribute_label`)
 
--   <https://www.zeit.de/wirtschaft/2024-06/zensus-2022-heizung-oel-gas-fernwaerme-waermepumpe-wohnungen>
+```
+
+## Anwendungsbeispiel: Ergebnis
+
+```{r echo=FALSE, eval=TRUE, cache=TRUE}
+shp <- sf::read_sf("data/Shapefile_Zensus2022/EPSG_25832/VG250_GEM.shp") %>% 
+        filter(BEZ != "Gemeindefreies Gebiet")
+
+df <- right_join(shp, heizung_filter,
+                 by = c("ARS" = "1_variable_attribute_code")) %>% 
+        group_by(ARS) %>% 
+        slice_max(lubridate::as_date(BEGINN), with_ties = FALSE) %>% 
+        ungroup()
+```
+
+```{r de_karte, eval=TRUE, dpi=1000, fig.format='CairoPNG'}
+ggplot(df) +
+  geom_sf(aes(fill = `2_variable_attribute_label`)) +
+  theme_collapse() +
+  labs(title = "Vorherrschender Energieträger pro Gemeinde",
+       subtitle = "Quelle: Zensus 2022",
+       fill = "Energieträger") + 
+  theme(axis.line = element_blank(),
+        axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        axis.title = element_blank(),
+        axis.ticks.length = unit(0, "pt"), #length of tick marks
+        panel.background = element_blank(),
+        panel.border = element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        plot.background = element_rect(fill = "#fff2cc"), 
+        plot.margin = margin(t = 5, l = 5, r = 0, b = 0, unit = "mm")) 
+
+```
+
+## Authentifizierung
+
+-   Alle drei APIs benötigen Nutzeraccounts
+-   Verschiedene Funktionen zur "Anmeldung"
+    -   `restatis::gen_auth_save()`: Speichere Zugangsdaten
+    -   `restatis::gen_auth_get()`: Lese Zugangsdaten aus
+    -   `restatis::gen_logincheck()`: Teste, ob Login funktioniert
+-   Alle Funktionen können für für alle APIs genutzt werden, <br> für Teile von ihnen oder für nur eine
+-   Zugangsdaten werden lokal in einer verschlüsselten `.rds`-Datei gespeichert
+-   Schlüssel dazu wird in `.Renviron` gespeichert
+-   Zensusdatenbank akzeptiert auch API-Token
+
+## Sonstige Funktionalität: Datendownload
+
+-   {restatis} bietet weitere Funktionen für den Datendownload:
+    -   `gen_cube()`: Download von sogenannten Datenquadern, gibt es nur bei GENESIS und regionalstatistik.de, nicht beim Zensus 2022
+    -   `gen_list_jobs()`: Liste mit aktiven und fertiggestellten "Jobs", die erstellt werden, wenn Tabellen zu groß für den direkten Download sind ("Jobs" gibt es auch nur bei GENESIS und www.regionalstatistik.de)
+    -   `gen_download_job()`: Download von fertiggestellten "Jobs"
+-   Beispiel:
+
+```{r bsp_jobs, echo=TRUE, eval=TRUE, error=TRUE}
+
+# Diese Anfrage ist zu groß => Parameter job = TRUE ist nötig
+large_request <- restatis::gen_table("31111-01-02-4", database = "regio")
+# large_request <- restatis::gen_table("31111-01-02-4", database = "regio", job = TRUE)
+
+```
+
+## Sonstige Funktionalität
+
+-   Daten & Metadaten finden
+
+    -   `gen_objects2stat()`: Function to find objects related to a statistic
+
+    -   `gen_objects2var()`: Function to find objects related to a variable
+
+    -   `gen_val2var()`: Function to extract the possible values from a variable
+
+    -   `gen_val2var2stat()`: Get values from variables from a statistic
+
+    -   `gen_search_vars()`: Function to search for specific variables
+    
+    
+-   Hilfsfunktionen
+
+    -   `gen_modified_data()`: Function to check for updates, changes, or new objects based on a specific date
+
+    -   `gen_alternative_terms()`: Function to find search terms that are similar or related to one another in spelling
+
+    -   `gen_signs()`: Function to list all currently used special signs (e.g., 0, *, X, (), p, ...) and their meaning
+
+    -   `gen_update_evas()`: Function to scrape EVAS numbers from the EVAS website
+
+## Schwesterpaket 'pystatis'
+
+<br>
+
+- {restatis} verfügt über ein Python-Schwesterpaket
+- [pystatis](https://pypi.org/project/pystatis/) ist auf PyPI zu finden
+- Funktionalität grundsätzlich relativ ähnlich
+- Unterstützt ebenfalls alle drei Datenbanken
+- Die Entwicklungsversion ist auf [GitHub](https://github.com/CorrelAid/pystatis) zu finden
+
+## Danke![^1]
+
+<br><br>
+
+- {restatis} ist ein Open-Source-Projekt 
+- Noch kein stabiler Release (Version 0.2.0)
+- Bitte rege benutzen und Rückmeldung geben
+- Am besten über [GitHub](https://github.com/CorrelAid/restatis/issues)
+
+[^1]: Diese Präsentation ist erstellt mit `Quarto` und basiert auf einer Vorlage von [Mine Cetinkaya-Rundel](https://github.com/mine-cetinkaya-rundel); Schriftart: [Fira Code Medium](https://github.com/tonsky/FiraCode).
