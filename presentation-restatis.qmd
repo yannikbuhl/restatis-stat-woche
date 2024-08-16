@@ -261,15 +261,14 @@ large_request <- restatis::gen_table("31111-01-02-4", database = "regio")
     -   `gen_val2var2stat()`: Get values from variables from a statistic
 
     -   `gen_search_vars()`: Function to search for specific variables
-    
-    
+
 -   Hilfsfunktionen
 
     -   `gen_modified_data()`: Function to check for updates, changes, or new objects based on a specific date
 
     -   `gen_alternative_terms()`: Function to find search terms that are similar or related to one another in spelling
 
-    -   `gen_signs()`: Function to list all currently used special signs (e.g., 0, *, X, (), p, ...) and their meaning
+    -   `gen_signs()`: Function to list all currently used special signs (e.g., 0, \*, X, (), p, ...) and their meaning
 
     -   `gen_update_evas()`: Function to scrape EVAS numbers from the EVAS website
 
@@ -277,19 +276,19 @@ large_request <- restatis::gen_table("31111-01-02-4", database = "regio")
 
 <br>
 
-- {restatis} verfügt über ein Python-Schwesterpaket
-- [pystatis](https://pypi.org/project/pystatis/) ist auf PyPI zu finden
-- Funktionalität grundsätzlich relativ ähnlich
-- Unterstützt ebenfalls alle drei Datenbanken
-- Die Entwicklungsversion ist auf [GitHub](https://github.com/CorrelAid/pystatis) zu finden
+-   {restatis} verfügt über ein Python-Schwesterpaket
+-   [pystatis](https://pypi.org/project/pystatis/) ist auf PyPI zu finden
+-   Funktionalität grundsätzlich relativ ähnlich
+-   Unterstützt ebenfalls alle drei Datenbanken
+-   Die Entwicklungsversion ist auf [GitHub](https://github.com/CorrelAid/pystatis) zu finden
 
 ## Danke![^1]
 
+[^1]: Diese Präsentation ist erstellt mit `Quarto` und basiert auf einer Vorlage von [Mine Cetinkaya-Rundel](https://github.com/mine-cetinkaya-rundel); Schriftart: [Fira Code Medium](https://github.com/tonsky/FiraCode).
+
 <br><br>
 
-- {restatis} ist ein Open-Source-Projekt 
-- Noch kein stabiler Release (Version 0.2.0)
-- Bitte rege benutzen und Rückmeldung geben
-- Am besten über [GitHub](https://github.com/CorrelAid/restatis/issues)
-
-[^1]: Diese Präsentation ist erstellt mit `Quarto` und basiert auf einer Vorlage von [Mine Cetinkaya-Rundel](https://github.com/mine-cetinkaya-rundel); Schriftart: [Fira Code Medium](https://github.com/tonsky/FiraCode).
+-   {restatis} ist ein Open-Source-Projekt
+-   Noch kein stabiler Release (Version 0.2.0)
+-   Bitte rege benutzen und Rückmeldung geben
+-   Am besten über [GitHub](https://github.com/CorrelAid/restatis/issues)

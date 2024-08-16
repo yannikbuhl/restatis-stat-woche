@@ -1,5 +1,6 @@
 project:
   title: "restatis-stat-woche"
+  output-dir: docs
 
 editor: visual
 
