@@ -4,7 +4,7 @@
     "href": "presentation-restatis.html#was-ist-restatis-und-was-bringt-es-mit",
     "title": "{restatis}",
     "section": "Was ist {restatis} und was bringt es mit?",
-    "text": "Was ist {restatis} und was bringt es mit?\n\n\n\nDas Paket\n\nAPI-Wrapper für:\n\nGENESIS (StBA-Datenbank)\nZensusdatenbank  (Zensus 2022)\nwww.regionalstatistik.de\n\nEntwickelt als Projekt  von CorrelAid\n\nKeine Zugehörigkeit zum StBA  oder dem Statistischen Verbund!\nErste Version 2022, Update 2024\n\n\n\nFeatures\n\nDurchsuche Datenbanken nach:\n\nTabellen & Cubes  (inkl. EVAS-Codes)\nMetadaten, Variablen, Werte\n\nDatendownload  (Tabellen, Cubes)\nWeitere Informationen abrufbar  (z.B. Sonderzeichen)\nCaching von API-Calls  mit memoise\n\nR-Session neu starten für Reset"
+    "text": "Was ist {restatis} und was bringt es mit?\n\n\n\nDas Paket\n\nAPI-Wrapper für:\n\nGENESIS (StBA-Datenbank)\nZensusdatenbank  (Zensus 2022)\nwww.regionalstatistik.de\n\nEntwickelt als Projekt  von CorrelAid\n\nKeine Zugehörigkeit zum StBA  oder dem Statistischen Verbund!\nErste Version 2023, Update 2024\n\n\n\nFeatures\n\nDurchsuche Datenbanken nach:\n\nTabellen & Cubes  (inkl. EVAS-Codes)\nMetadaten, Variablen, Werte, etc.\n\nDatendownload  (Tabellen, Cubes)\nWeitere Informationen abrufbar  (z.B. Qualitätskennzeichen)\nCaching von API-Calls  mit memoise\n\nR-Session neu starten für Reset"
   },
   {
     "objectID": "presentation-restatis.html#installation",
@@ -53,7 +53,7 @@
     "href": "presentation-restatis.html#anwendungsbeispiel-5",
     "title": "{restatis}",
     "section": "Anwendungsbeispiel",
-    "text": "Anwendungsbeispiel\n\nNun kennen wir die Tabelle, die wir möchten\nAber welche Informationen gibt es zu ihr?\n\n\nmetadata_table &lt;- gen_metadata(\"3000G-1011\", \n                               database = \"zensus\", category = \"table\", verbose = FALSE)\nprint(metadata_table$Structure$Rows)\n\n     Code     Content       Type      Updated     \n[1,] \"HZGAT1\" \"Heizungsart\" \"Merkmal\" \"see parent\"\n\nmetadata_variable &lt;- gen_metadata(\"HZGAT1\", \n                                  database = \"zensus\", category = \"variable\", verbose = FALSE)\nprint(metadata_variable$General)\n\n     Code     Content       Values Type      \n[1,] \"HZGAT1\" \"Heizungsart\" \"6\"    \"sachlich\"\n\nprint(metadata_variable$Information)\n\n[1] \"wiki\\nDas Merkmal bezeichnet die überwiegende Heizungsart im \\nGebäude.\""
+    "text": "Anwendungsbeispiel\n\nNun kennen wir die Tabelle, die wir möchten\nAber welche Informationen gibt es zu ihr?\n\n\nmetadata_table &lt;- gen_metadata(\"3000G-1011\", \n                               database = \"zensus\", category = \"table\", verbose = FALSE)\n\nprint(metadata_table$Structure$Rows)\n\n     Code     Content       Type      Updated     \n[1,] \"HZGAT1\" \"Heizungsart\" \"Merkmal\" \"see parent\"\n\nmetadata_variable &lt;- gen_metadata(\"HZGAT1\", \n                                  database = \"zensus\", category = \"variable\", verbose = FALSE)\n\nprint(metadata_variable$General)\n\n     Code     Content       Values Type      \n[1,] \"HZGAT1\" \"Heizungsart\" \"6\"    \"sachlich\"\n\nprint(metadata_variable$Information)\n\n[1] \"wiki\\nDas Merkmal bezeichnet die überwiegende Heizungsart im \\nGebäude.\""
   },
   {
     "objectID": "presentation-restatis.html#anwendungsbeispiel-6",
@@ -88,7 +88,7 @@
     "href": "presentation-restatis.html#sonstige-funktionalität",
     "title": "{restatis}",
     "section": "Sonstige Funktionalität",
-    "text": "Sonstige Funktionalität\n\nDaten & Metadaten finden\n\ngen_objects2stat(): Function to find objects related to a statistic\ngen_objects2var(): Function to find objects related to a variable\ngen_val2var(): Function to extract the possible values from a variable\ngen_val2var2stat(): Get values from variables from a statistic\ngen_search_vars(): Function to search for specific variables\n\nHilfsfunktionen\n\ngen_modified_data(): Function to check for updates, changes, or new objects based on a specific date\ngen_alternative_terms(): Function to find search terms that are similar or related to one another in spelling\ngen_signs(): Function to list all currently used special signs (e.g., 0, *, X, (), p, …) and their meaning\ngen_update_evas(): Function to scrape EVAS numbers from the EVAS website"
+    "text": "Sonstige Funktionalität\n\nDaten & Metadaten finden\n\ngen_objects2stat(): Finde Objekte zu einer Statistik\ngen_objects2var(): Finde Objekte zu einer Variablen\ngen_val2var(): Extrahiere mögliche Werte einer Variablen\ngen_val2var2stat(): Finde Werte einer Variable zu einer Statistik\ngen_search_vars(): Suche spezifische Variablen\n\nHilfsfunktionen\n\ngen_modified_data(): Suche nach Updates, Änderungen oder neuen Objekten anhand eines spezifischen Datums\ngen_alternative_terms(): Finde Suchbegriffe, die ähnlich oder verwandt sind zueinander (Schreibweise)\ngen_signs(): Funktion, alle aktuellen Qualitätskennzeichen und deren Bedeutung aufzulisten (z.B., 0, *, X, (), p, …)\ngen_update_evas(): Funktion, um die aktuellen EVAS-Nummern von der EVAS-Seite zu scrapen"
   },
   {
     "objectID": "presentation-restatis.html#schwesterpaket-pystatis",
@@ -102,6 +102,6 @@
     "href": "presentation-restatis.html#danke1",
     "title": "{restatis}",
     "section": "Danke!1",
-    "text": "Danke!1\n\n\n{restatis} ist ein Open-Source-Projekt\nNoch kein stabiler Release (Version 0.2.0)\nBitte rege benutzen und Rückmeldung geben\nAm besten über GitHub\n\n\n\n\n\n\n\nDiese Präsentation ist erstellt mit Quarto und basiert auf einer Vorlage von Mine Cetinkaya-Rundel; Schriftart: Fira Code Medium."
+    "text": "Danke!1\n\n\n{restatis} ist ein Open-Source-Projekt\nNoch kein stabiler Release (Version 0.2.0)\nBitte rege benutzen und Rückmeldung geben\nAm besten über GitHub\nNächste Schritte u.a.:\n\nUmstellung von Zensusdatenbank und GENESIS zu POST (statt GET)\n\n\n\n\n\n\n\n\nDiese Präsentation ist erstellt mit Quarto und basiert auf einer Vorlage von Mine Cetinkaya-Rundel; Schriftart: Fira Code Medium."
   }
 ]

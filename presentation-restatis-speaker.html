@@ -417,7 +417,7 @@ Yannik Buhl, Statistisches Bundesamt
 
 </section>
 <section id="was-ist-restatis-und-was-bringt-es-mit" class="slide level2">
-<h2>Was ist {restatis} und was bringt es mit?</h2>
+<h2>Was ist <code>{restatis}</code> und was bringt es mit?</h2>
 <p><br></p>
 <div class="columns">
 <div class="column" style="width:50%;">
@@ -432,7 +432,7 @@ Yannik Buhl, Statistisches Bundesamt
 <li>Entwickelt als Projekt <br> von <a href="www.correlaid.org">CorrelAid</a>
 <ul>
 <li>Keine Zugehörigkeit zum StBA <br> oder dem Statistischen Verbund!</li>
-<li>Erste Version 2022,<br> Update 2024</li>
+<li>Erste Version 2023,<br> Update 2024</li>
 </ul></li>
 </ul>
 </div><div class="column" style="width:50%;">
@@ -441,10 +441,10 @@ Yannik Buhl, Statistisches Bundesamt
 <li><p>Durchsuche Datenbanken nach:</p>
 <ul>
 <li>Tabellen &amp; Cubes <br> (inkl. EVAS-Codes)</li>
-<li>Metadaten, Variablen, Werte</li>
+<li>Metadaten, Variablen, Werte, etc.</li>
 </ul></li>
 <li><p>Datendownload <br> (Tabellen, Cubes)</p></li>
-<li><p>Weitere Informationen abrufbar <br> (z.B. Sonderzeichen)</p></li>
+<li><p>Weitere Informationen abrufbar <br> (z.B. Qualitätskennzeichen)</p></li>
 <li><p>Caching von API-Calls <br> mit <code>memoise</code></p>
 <ul>
 <li>R-Session neu starten für Reset</li>
@@ -610,14 +610,16 @@ Yannik Buhl, Statistisches Bundesamt
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a></a>metadata_table <span class="ot">&lt;-</span> <span class="fu">gen_metadata</span>(<span class="st">"3000G-1011"</span>, </span>
 <span id="cb13-2"><a></a>                               <span class="at">database =</span> <span class="st">"zensus"</span>, <span class="at">category =</span> <span class="st">"table"</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb13-3"><a></a><span class="fu">print</span>(metadata_table<span class="sc">$</span>Structure<span class="sc">$</span>Rows)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-3"><a></a></span>
+<span id="cb13-4"><a></a><span class="fu">print</span>(metadata_table<span class="sc">$</span>Structure<span class="sc">$</span>Rows)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     Code     Content       Type      Updated     
 [1,] "HZGAT1" "Heizungsart" "Merkmal" "see parent"</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a></a>metadata_variable <span class="ot">&lt;-</span> <span class="fu">gen_metadata</span>(<span class="st">"HZGAT1"</span>, </span>
 <span id="cb15-2"><a></a>                                  <span class="at">database =</span> <span class="st">"zensus"</span>, <span class="at">category =</span> <span class="st">"variable"</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb15-3"><a></a><span class="fu">print</span>(metadata_variable<span class="sc">$</span>General)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-3"><a></a></span>
+<span id="cb15-4"><a></a><span class="fu">print</span>(metadata_variable<span class="sc">$</span>General)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     Code     Content       Values Type      
 [1,] "HZGAT1" "Heizungsart" "6"    "sachlich"</code></pre>
@@ -678,7 +680,7 @@ Yannik Buhl, Statistisches Bundesamt
 <section id="sonstige-funktionalität-datendownload" class="slide level2">
 <h2>Sonstige Funktionalität: Datendownload</h2>
 <ul>
-<li>{restatis} bietet weitere Funktionen für den Datendownload:
+<li><code>{restatis}</code> bietet weitere Funktionen für den Datendownload:
 <ul>
 <li><code>gen_cube()</code>: Download von sogenannten Datenquadern, gibt es nur bei GENESIS und regionalstatistik.de, nicht beim Zensus 2022</li>
 <li><code>gen_list_jobs()</code>: Liste mit aktiven und fertiggestellten “Jobs”, die erstellt werden, wenn Tabellen zu groß für den direkten Download sind (“Jobs” gibt es auch nur bei GENESIS und www.regionalstatistik.de)</li>
@@ -704,18 +706,18 @@ later (use the function 'gen_list_jobs()' to check its status).</code></pre>
 <ul>
 <li><p>Daten &amp; Metadaten finden</p>
 <ul>
-<li><p><code>gen_objects2stat()</code>: Function to find objects related to a statistic</p></li>
-<li><p><code>gen_objects2var()</code>: Function to find objects related to a variable</p></li>
-<li><p><code>gen_val2var()</code>: Function to extract the possible values from a variable</p></li>
-<li><p><code>gen_val2var2stat()</code>: Get values from variables from a statistic</p></li>
-<li><p><code>gen_search_vars()</code>: Function to search for specific variables</p></li>
+<li><p><code>gen_objects2stat()</code>: Finde Objekte zu einer Statistik</p></li>
+<li><p><code>gen_objects2var()</code>: Finde Objekte zu einer Variablen</p></li>
+<li><p><code>gen_val2var()</code>: Extrahiere mögliche Werte einer Variablen</p></li>
+<li><p><code>gen_val2var2stat()</code>: Finde Werte einer Variable zu einer Statistik</p></li>
+<li><p><code>gen_search_vars()</code>: Suche spezifische Variablen</p></li>
 </ul></li>
 <li><p>Hilfsfunktionen</p>
 <ul>
-<li><p><code>gen_modified_data()</code>: Function to check for updates, changes, or new objects based on a specific date</p></li>
-<li><p><code>gen_alternative_terms()</code>: Function to find search terms that are similar or related to one another in spelling</p></li>
-<li><p><code>gen_signs()</code>: Function to list all currently used special signs (e.g., 0, *, X, (), p, …) and their meaning</p></li>
-<li><p><code>gen_update_evas()</code>: Function to scrape EVAS numbers from the EVAS website</p></li>
+<li><p><code>gen_modified_data()</code>: Suche nach Updates, Änderungen oder neuen Objekten anhand eines spezifischen Datums</p></li>
+<li><p><code>gen_alternative_terms()</code>: Finde Suchbegriffe, die ähnlich oder verwandt sind zueinander (Schreibweise)</p></li>
+<li><p><code>gen_signs()</code>: Funktion, alle aktuellen Qualitätskennzeichen und deren Bedeutung aufzulisten (z.B., 0, *, X, (), p, …)</p></li>
+<li><p><code>gen_update_evas()</code>: Funktion, um die aktuellen EVAS-Nummern von der EVAS-Seite zu scrapen</p></li>
 </ul></li>
 </ul>
 </section>
@@ -734,10 +736,14 @@ later (use the function 'gen_list_jobs()' to check its status).</code></pre>
 <h2>Danke!<sup>1</sup></h2>
 <p><br><br></p>
 <ul>
-<li>{restatis} ist ein Open-Source-Projekt</li>
+<li><code>{restatis}</code> ist ein Open-Source-Projekt</li>
 <li>Noch kein stabiler Release (Version 0.2.0)</li>
 <li>Bitte rege benutzen und Rückmeldung geben</li>
 <li>Am besten über <a href="https://github.com/CorrelAid/restatis/issues">GitHub</a></li>
+<li>Nächste Schritte u.a.:
+<ul>
+<li>Umstellung von Zensusdatenbank und GENESIS zu POST (statt GET)</li>
+</ul></li>
 </ul>
 
 <div class="quarto-auto-generated-content">

@@ -26,7 +26,7 @@ include-in-header:
       </style>
 ---
 
-## Was ist {restatis} und was bringt es mit?
+## Was ist `{restatis}` und was bringt es mit?
 
 <br>
 
@@ -40,7 +40,7 @@ include-in-header:
     -   www.regionalstatistik.de
 -   Entwickelt als Projekt <br> von [CorrelAid](www.correlaid.org)
     -   Keine Zugehörigkeit zum StBA <br> oder dem Statistischen Verbund!
-    -   Erste Version 2022,<br> Update 2024
+    -   Erste Version 2023,<br> Update 2024
 :::
 
 ::: {.column width="50%"}
@@ -49,11 +49,11 @@ include-in-header:
 -   Durchsuche Datenbanken nach:
 
     -   Tabellen & Cubes <br> (inkl. EVAS-Codes)
-    -   Metadaten, Variablen, Werte
+    -   Metadaten, Variablen, Werte, etc.
 
 -   Datendownload <br> (Tabellen, Cubes)
 
--   Weitere Informationen abrufbar <br> (z.B. Sonderzeichen)
+-   Weitere Informationen abrufbar <br> (z.B. Qualitätskennzeichen)
 
 -   Caching von API-Calls <br> mit `memoise`
 
@@ -161,10 +161,12 @@ head(heizung[,9:17])
 ```{r echo=TRUE, eval=TRUE, cache=TRUE}
 metadata_table <- gen_metadata("3000G-1011", 
                                database = "zensus", category = "table", verbose = FALSE)
+
 print(metadata_table$Structure$Rows)
 
 metadata_variable <- gen_metadata("HZGAT1", 
                                   database = "zensus", category = "variable", verbose = FALSE)
+
 print(metadata_variable$General)
 print(metadata_variable$Information)
 
@@ -234,7 +236,7 @@ ggplot(df) +
 
 ## Sonstige Funktionalität: Datendownload
 
--   {restatis} bietet weitere Funktionen für den Datendownload:
+-   `{restatis}` bietet weitere Funktionen für den Datendownload:
     -   `gen_cube()`: Download von sogenannten Datenquadern, gibt es nur bei GENESIS und regionalstatistik.de, nicht beim Zensus 2022
     -   `gen_list_jobs()`: Liste mit aktiven und fertiggestellten "Jobs", die erstellt werden, wenn Tabellen zu groß für den direkten Download sind ("Jobs" gibt es auch nur bei GENESIS und www.regionalstatistik.de)
     -   `gen_download_job()`: Download von fertiggestellten "Jobs"
@@ -252,25 +254,25 @@ large_request <- restatis::gen_table("31111-01-02-4", database = "regio")
 
 -   Daten & Metadaten finden
 
-    -   `gen_objects2stat()`: Function to find objects related to a statistic
+    -   `gen_objects2stat()`: Finde Objekte zu einer Statistik
 
-    -   `gen_objects2var()`: Function to find objects related to a variable
+    -   `gen_objects2var()`: Finde Objekte zu einer Variablen
 
-    -   `gen_val2var()`: Function to extract the possible values from a variable
+    -   `gen_val2var()`: Extrahiere mögliche Werte einer Variablen
 
-    -   `gen_val2var2stat()`: Get values from variables from a statistic
+    -   `gen_val2var2stat()`: Finde Werte einer Variable zu einer Statistik 
 
-    -   `gen_search_vars()`: Function to search for specific variables
+    -   `gen_search_vars()`: Suche spezifische Variablen
 
 -   Hilfsfunktionen
 
-    -   `gen_modified_data()`: Function to check for updates, changes, or new objects based on a specific date
+    -   `gen_modified_data()`: Suche nach Updates, Änderungen oder neuen Objekten anhand eines spezifischen Datums
 
-    -   `gen_alternative_terms()`: Function to find search terms that are similar or related to one another in spelling
+    -   `gen_alternative_terms()`: Finde Suchbegriffe, die ähnlich oder verwandt sind zueinander (Schreibweise)
 
-    -   `gen_signs()`: Function to list all currently used special signs (e.g., 0, \*, X, (), p, ...) and their meaning
+    -   `gen_signs()`: Funktion, alle aktuellen Qualitätskennzeichen und deren Bedeutung aufzulisten (z.B., 0, \*, X, (), p, ...)
 
-    -   `gen_update_evas()`: Function to scrape EVAS numbers from the EVAS website
+    -   `gen_update_evas()`: Funktion, um die aktuellen EVAS-Nummern von der EVAS-Seite zu scrapen
 
 ## Schwesterpaket 'pystatis'
 
@@ -288,7 +290,9 @@ large_request <- restatis::gen_table("31111-01-02-4", database = "regio")
 
 <br><br>
 
--   {restatis} ist ein Open-Source-Projekt
+-   `{restatis}` ist ein Open-Source-Projekt
 -   Noch kein stabiler Release (Version 0.2.0)
 -   Bitte rege benutzen und Rückmeldung geben
 -   Am besten über [GitHub](https://github.com/CorrelAid/restatis/issues)
+-   Nächste Schritte u.a.:
+    -   Umstellung von Zensusdatenbank und GENESIS zu POST (statt GET)
