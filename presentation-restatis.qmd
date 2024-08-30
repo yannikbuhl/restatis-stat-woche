@@ -260,7 +260,7 @@ large_request <- restatis::gen_table("31111-01-02-4", database = "regio")
 
     -   `gen_val2var()`: Extrahiere mögliche Werte einer Variablen
 
-    -   `gen_val2var2stat()`: Finde Werte einer Variable zu einer Statistik 
+    -   `gen_val2var2stat()`: Finde Werte einer Variable zu einer Statistik
 
     -   `gen_search_vars()`: Suche spezifische Variablen
 
@@ -278,7 +278,7 @@ large_request <- restatis::gen_table("31111-01-02-4", database = "regio")
 
 <br>
 
--   {restatis} verfügt über ein Python-Schwesterpaket
+-   `{restatis}` verfügt über ein Python-Schwesterpaket
 -   [pystatis](https://pypi.org/project/pystatis/) ist auf PyPI zu finden
 -   Funktionalität grundsätzlich relativ ähnlich
 -   Unterstützt ebenfalls alle drei Datenbanken
