@@ -89,7 +89,7 @@ library(pacman)
 pacman::p_load(dplyr, restatis, sf, ggplot2, lubridate, microplot, Cairo)
 ```
 
--   Szenario: Wir sollen eine Analyse zum Thema "Heizungsarten" durchführen, basierend auf der Gebäude- und Wohnungszählung (GWZ) und nutzen hier für die Zensusdatenbank
+-   Szenario: Wir sollen eine Analyse zum Thema "Heizungsarten" durchführen, basierend auf der Gebäude- und Wohnungszählung (GWZ) und nutzen hierfür die Zensusdatenbank
 -   Wir suchen nach Objekten in der Zensusdatenbank zum Thema "Heizung" und ziehen aus der Ergebnis-Liste nur die Tabellen
 
 ```{r echo=TRUE, cache=TRUE}
@@ -229,7 +229,7 @@ ggplot(df) +
     -   `restatis::gen_auth_save()`: Speichere Zugangsdaten
     -   `restatis::gen_auth_get()`: Lese Zugangsdaten aus
     -   `restatis::gen_logincheck()`: Teste, ob Login funktioniert
--   Alle Funktionen können für für alle APIs genutzt werden, <br> für Teile von ihnen oder für nur eine
+-   Alle Funktionen können für alle APIs genutzt werden, <br> für Teile von ihnen oder für nur eine
 -   Zugangsdaten werden lokal in einer verschlüsselten `.rds`-Datei gespeichert
 -   Schlüssel dazu wird in `.Renviron` gespeichert
 -   Zensusdatenbank akzeptiert auch API-Token
@@ -296,3 +296,5 @@ large_request <- restatis::gen_table("31111-01-02-4", database = "regio")
 -   Am besten über [GitHub](https://github.com/CorrelAid/restatis/issues)
 -   Nächste Schritte u.a.:
     -   Umstellung von Zensusdatenbank und GENESIS zu POST (statt GET)
+    
+Kontakt: yannik.buhl@destatis.de oder yannikbuhl (GitHub)

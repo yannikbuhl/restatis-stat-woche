@@ -18,7 +18,7 @@
     "href": "presentation-restatis.html#anwendungsbeispiel",
     "title": "{restatis}",
     "section": "Anwendungsbeispiel",
-    "text": "Anwendungsbeispiel\n\nSzenario: Wir sollen eine Analyse zum Thema “Heizungsarten” durchführen, basierend auf der Gebäude- und Wohnungszählung (GWZ) und nutzen hier für die Zensusdatenbank\nWir suchen nach Objekten in der Zensusdatenbank zum Thema “Heizung” und ziehen aus der Ergebnis-Liste nur die Tabellen\n\n\nrestatis::gen_find(term = \"Heizung\", \n                   database = \"zensus\", \n                   verbose = FALSE) %&gt;% \n  magrittr::extract2(\"Tables\") %&gt;% # restatis liefert Ergebnisse i.d.R. als Listen\n  head(2) # Nur ein Auszug aus 49 Tabellen\n\n# A tibble: 2 × 3\n  Code       Content                            Object_Type\n  &lt;chr&gt;      &lt;chr&gt;                              &lt;chr&gt;      \n1 3000G-1008 Gebäude: Energieträger der Heizung table      \n2 3000G-1011 Gebäude: Heizungsart               table"
+    "text": "Anwendungsbeispiel\n\nSzenario: Wir sollen eine Analyse zum Thema “Heizungsarten” durchführen, basierend auf der Gebäude- und Wohnungszählung (GWZ) und nutzen hierfür die Zensusdatenbank\nWir suchen nach Objekten in der Zensusdatenbank zum Thema “Heizung” und ziehen aus der Ergebnis-Liste nur die Tabellen\n\n\nrestatis::gen_find(term = \"Heizung\", \n                   database = \"zensus\", \n                   verbose = FALSE) %&gt;% \n  magrittr::extract2(\"Tables\") %&gt;% # restatis liefert Ergebnisse i.d.R. als Listen\n  head(2) # Nur ein Auszug aus 49 Tabellen\n\n# A tibble: 2 × 3\n  Code       Content                            Object_Type\n  &lt;chr&gt;      &lt;chr&gt;                              &lt;chr&gt;      \n1 3000G-1008 Gebäude: Energieträger der Heizung table      \n2 3000G-1011 Gebäude: Heizungsart               table"
   },
   {
     "objectID": "presentation-restatis.html#anwendungsbeispiel-1",
@@ -74,7 +74,7 @@
     "href": "presentation-restatis.html#authentifizierung",
     "title": "{restatis}",
     "section": "Authentifizierung",
-    "text": "Authentifizierung\n\nAlle drei APIs benötigen Nutzeraccounts\nVerschiedene Funktionen zur “Anmeldung”\n\nrestatis::gen_auth_save(): Speichere Zugangsdaten\nrestatis::gen_auth_get(): Lese Zugangsdaten aus\nrestatis::gen_logincheck(): Teste, ob Login funktioniert\n\nAlle Funktionen können für für alle APIs genutzt werden,  für Teile von ihnen oder für nur eine\nZugangsdaten werden lokal in einer verschlüsselten .rds-Datei gespeichert\nSchlüssel dazu wird in .Renviron gespeichert\nZensusdatenbank akzeptiert auch API-Token"
+    "text": "Authentifizierung\n\nAlle drei APIs benötigen Nutzeraccounts\nVerschiedene Funktionen zur “Anmeldung”\n\nrestatis::gen_auth_save(): Speichere Zugangsdaten\nrestatis::gen_auth_get(): Lese Zugangsdaten aus\nrestatis::gen_logincheck(): Teste, ob Login funktioniert\n\nAlle Funktionen können für alle APIs genutzt werden,  für Teile von ihnen oder für nur eine\nZugangsdaten werden lokal in einer verschlüsselten .rds-Datei gespeichert\nSchlüssel dazu wird in .Renviron gespeichert\nZensusdatenbank akzeptiert auch API-Token"
   },
   {
     "objectID": "presentation-restatis.html#sonstige-funktionalität-datendownload",
@@ -102,6 +102,6 @@
     "href": "presentation-restatis.html#danke1",
     "title": "{restatis}",
     "section": "Danke!1",
-    "text": "Danke!1\n\n\n{restatis} ist ein Open-Source-Projekt\nNoch kein stabiler Release (Version 0.2.0)\nBitte rege benutzen und Rückmeldung geben\nAm besten über GitHub\nNächste Schritte u.a.:\n\nUmstellung von Zensusdatenbank und GENESIS zu POST (statt GET)\n\n\n\n\n\n\n\n\nDiese Präsentation ist erstellt mit Quarto und basiert auf einer Vorlage von Mine Cetinkaya-Rundel; Schriftart: Fira Code Medium."
+    "text": "Danke!1\n\n\n{restatis} ist ein Open-Source-Projekt\nNoch kein stabiler Release (Version 0.2.0)\nBitte rege benutzen und Rückmeldung geben\nAm besten über GitHub\nNächste Schritte u.a.:\n\nUmstellung von Zensusdatenbank und GENESIS zu POST (statt GET)\n\n\nKontakt: yannik.buhl@destatis.de oder yannikbuhl (GitHub)\n\n\n\n\n\n\nDiese Präsentation ist erstellt mit Quarto und basiert auf einer Vorlage von Mine Cetinkaya-Rundel; Schriftart: Fira Code Medium."
   }
 ]
