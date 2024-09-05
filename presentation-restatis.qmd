@@ -296,5 +296,5 @@ large_request <- restatis::gen_table("31111-01-02-4", database = "regio")
 -   Am besten über [GitHub](https://github.com/CorrelAid/restatis/issues)
 -   Nächste Schritte u.a.:
     -   Umstellung von Zensusdatenbank und GENESIS zu POST (statt GET)
-    
-Kontakt: yannik.buhl@destatis.de oder yannikbuhl (GitHub)
+
+Kontakt: yannik.buhl /at/ destatis.de oder yannikbuhl (GitHub)

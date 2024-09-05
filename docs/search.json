@@ -102,6 +102,6 @@
     "href": "presentation-restatis.html#danke1",
     "title": "{restatis}",
     "section": "Danke!1",
-    "text": "Danke!1\n\n\n{restatis} ist ein Open-Source-Projekt\nNoch kein stabiler Release (Version 0.2.0)\nBitte rege benutzen und Rückmeldung geben\nAm besten über GitHub\nNächste Schritte u.a.:\n\nUmstellung von Zensusdatenbank und GENESIS zu POST (statt GET)\n\n\nKontakt: yannik.buhl@destatis.de oder yannikbuhl (GitHub)\n\n\n\n\n\n\nDiese Präsentation ist erstellt mit Quarto und basiert auf einer Vorlage von Mine Cetinkaya-Rundel; Schriftart: Fira Code Medium."
+    "text": "Danke!1\n\n\n{restatis} ist ein Open-Source-Projekt\nNoch kein stabiler Release (Version 0.2.0)\nBitte rege benutzen und Rückmeldung geben\nAm besten über GitHub\nNächste Schritte u.a.:\n\nUmstellung von Zensusdatenbank und GENESIS zu POST (statt GET)\n\n\nKontakt: yannik.buhl /at/ destatis.de oder yannikbuhl (GitHub)\n\n\n\n\n\n\nDiese Präsentation ist erstellt mit Quarto und basiert auf einer Vorlage von Mine Cetinkaya-Rundel; Schriftart: Fira Code Medium."
   }
 ]
