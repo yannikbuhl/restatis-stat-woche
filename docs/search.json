@@ -95,7 +95,7 @@
     "href": "presentation-restatis.html#schwesterpaket-pystatis",
     "title": "{restatis}",
     "section": "Schwesterpaket ‘pystatis’",
-    "text": "Schwesterpaket ‘pystatis’\n\n\n{restatis} verfügt über ein Python-Schwesterpaket\npystatis ist auf PyPI zu finden\nFunktionalität grundsätzlich relativ ähnlich\nUnterstützt ebenfalls alle drei Datenbanken\nDie Entwicklungsversion ist auf GitHub zu finden"
+    "text": "Schwesterpaket ‘pystatis’\n\n\n{restatis} verfügt über ein Python-Schwesterpaket\npystatis ist auf PyPI zu finden\nFunktionalität grundsätzlich relativ ähnlich\nUnterstützt ebenfalls alle drei Datenbanken\nDie Entwicklungsversion ist auf GitHub zu finden\n\n\n\nAußerdem gibt es noch das wiesbaden-Paket\n\nBaut auf SOAP/XML statt auf RESTful/JSON\nKein Support für die Zensusdatenbank"
   },
   {
     "objectID": "presentation-restatis.html#danke1",

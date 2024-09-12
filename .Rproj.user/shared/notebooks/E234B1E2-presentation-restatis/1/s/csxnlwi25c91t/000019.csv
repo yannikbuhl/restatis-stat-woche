@@ -1,2 +1,0 @@
-"0","heiz_vars <- restatis::gen_var2stat(code = ""3000G"", database = ""zensus"", verbose = FALSE)"
-"0","heiz_vars$Variables[11:16,]"

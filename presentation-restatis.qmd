@@ -201,7 +201,7 @@ df <- right_join(shp, heizung_filter,
         ungroup()
 ```
 
-```{r de_karte, eval=TRUE, dpi=1000, fig.format='CairoPNG'}
+```{r de_karte, eval=TRUE, dpi=1000, fig.format='CairoPNG', cache=TRUE}
 ggplot(df) +
   geom_sf(aes(fill = `2_variable_attribute_label`)) +
   theme_collapse() +
@@ -283,6 +283,12 @@ large_request <- restatis::gen_table("31111-01-02-4", database = "regio")
 -   Funktionalität grundsätzlich relativ ähnlich
 -   Unterstützt ebenfalls alle drei Datenbanken
 -   Die Entwicklungsversion ist auf [GitHub](https://github.com/CorrelAid/pystatis) zu finden
+
+<br>
+
+- Außerdem gibt es noch das `wiesbaden`-Paket
+  - Baut auf SOAP/XML statt auf RESTful/JSON
+  - Kein Support für die Zensusdatenbank
 
 ## Danke![^1]
 
