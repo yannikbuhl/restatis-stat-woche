@@ -89,7 +89,7 @@ library(pacman)
 pacman::p_load(dplyr, restatis, sf, ggplot2, lubridate, microplot, Cairo)
 ```
 
--   Szenario: Wir sollen eine Analyse zum Thema "Heizungsarten" durchführen, basierend auf der Gebäude- und Wohnungszählung (GWZ) und nutzen hierfür die Zensusdatenbank
+-   Szenario: Wir sollen eine Analyse zum Thema "Energieträger der Heizung" durchführen, basierend auf der Gebäude- und Wohnungszählung (GWZ) und nutzen hierfür die Zensusdatenbank
 -   Wir suchen nach Objekten in der Zensusdatenbank zum Thema "Heizung" und ziehen aus der Ergebnis-Liste nur die Tabellen
 
 ```{r echo=TRUE, cache=TRUE}
@@ -159,18 +159,33 @@ head(heizung[,9:17])
 -   Aber welche Informationen gibt es zu ihr?
 
 ```{r echo=TRUE, eval=TRUE, cache=TRUE}
-metadata_table <- gen_metadata("3000G-1011", 
-                               database = "zensus", category = "table", verbose = FALSE)
+metadata_table <- restatis::gen_metadata("3000G-1008", 
+                                         database = "zensus", 
+                                         category = "table", verbose = FALSE)
 
+print(metadata_table$Structure$Columns)
 print(metadata_table$Structure$Rows)
 
-metadata_variable <- gen_metadata("HZGAT1", 
-                                  database = "zensus", category = "variable", verbose = FALSE)
+```
 
-print(metadata_variable$General)
+## Anwendungsbeispiel
+
+- Theoretisch können wir sogar noch weiter in die Tiefe:
+
+```{r echo=TRUE}
+metadata_values <- restatis::gen_val2var("GEBEN1", 
+                                         database = "zensus", error.ignore = TRUE)
+
+print(metadata_values$`Values of GEBEN1` %>% head(3))
+
+metadata_variable <- restatis::gen_metadata("GEBEN1",
+                                            database = "zensus",
+                                            category = "variable", verbose = FALSE)
+
 print(metadata_variable$Information)
 
 ```
+
 
 ## Anwendungsbeispiel
 

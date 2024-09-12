@@ -475,7 +475,7 @@ Yannik Buhl, Statistisches Bundesamt
 <section id="anwendungsbeispiel" class="slide level2">
 <h2>Anwendungsbeispiel</h2>
 <ul>
-<li>Szenario: Wir sollen eine Analyse zum Thema “Heizungsarten” durchführen, basierend auf der Gebäude- und Wohnungszählung (GWZ) und nutzen hierfür die Zensusdatenbank</li>
+<li>Szenario: Wir sollen eine Analyse zum Thema “Energieträger der Heizung” durchführen, basierend auf der Gebäude- und Wohnungszählung (GWZ) und nutzen hierfür die Zensusdatenbank</li>
 <li>Wir suchen nach Objekten in der Zensusdatenbank zum Thema “Heizung” und ziehen aus der Ergebnis-Liste nur die Tabellen</li>
 </ul>
 <div class="cell">
@@ -608,42 +608,64 @@ Yannik Buhl, Statistisches Bundesamt
 <li>Aber welche Informationen gibt es zu ihr?</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a></a>metadata_table <span class="ot">&lt;-</span> <span class="fu">gen_metadata</span>(<span class="st">"3000G-1011"</span>, </span>
-<span id="cb13-2"><a></a>                               <span class="at">database =</span> <span class="st">"zensus"</span>, <span class="at">category =</span> <span class="st">"table"</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb13-3"><a></a></span>
-<span id="cb13-4"><a></a><span class="fu">print</span>(metadata_table<span class="sc">$</span>Structure<span class="sc">$</span>Rows)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a></a>metadata_table <span class="ot">&lt;-</span> restatis<span class="sc">::</span><span class="fu">gen_metadata</span>(<span class="st">"3000G-1008"</span>, </span>
+<span id="cb13-2"><a></a>                                         <span class="at">database =</span> <span class="st">"zensus"</span>, </span>
+<span id="cb13-3"><a></a>                                         <span class="at">category =</span> <span class="st">"table"</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb13-4"><a></a></span>
+<span id="cb13-5"><a></a><span class="fu">print</span>(metadata_table<span class="sc">$</span>Structure<span class="sc">$</span>Columns)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     Code     Content       Type      Updated     
-[1,] "HZGAT1" "Heizungsart" "Merkmal" "see parent"</code></pre>
+[1,] "GEODL1" "Deutschland" "Merkmal" "see parent"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a></a>metadata_variable <span class="ot">&lt;-</span> <span class="fu">gen_metadata</span>(<span class="st">"HZGAT1"</span>, </span>
-<span id="cb15-2"><a></a>                                  <span class="at">database =</span> <span class="st">"zensus"</span>, <span class="at">category =</span> <span class="st">"variable"</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb15-3"><a></a></span>
-<span id="cb15-4"><a></a><span class="fu">print</span>(metadata_variable<span class="sc">$</span>General)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a></a><span class="fu">print</span>(metadata_table<span class="sc">$</span>Structure<span class="sc">$</span>Rows)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>     Code     Content       Values Type      
-[1,] "HZGAT1" "Heizungsart" "6"    "sachlich"</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a></a><span class="fu">print</span>(metadata_variable<span class="sc">$</span>Information)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "wiki\nDas Merkmal bezeichnet die überwiegende Heizungsart im \nGebäude."</code></pre>
+<pre><code>     Code     Content                     Type      Updated     
+[1,] "GEBEN1" "Energieträger der Heizung" "Merkmal" "see parent"</code></pre>
 </div>
 </div>
 </section>
 <section id="anwendungsbeispiel-6" class="slide level2">
 <h2>Anwendungsbeispiel</h2>
 <ul>
+<li>Theoretisch können wir sogar noch weiter in die Tiefe:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a></a>metadata_values <span class="ot">&lt;-</span> restatis<span class="sc">::</span><span class="fu">gen_val2var</span>(<span class="st">"GEBEN1"</span>, </span>
+<span id="cb17-2"><a></a>                                         <span class="at">database =</span> <span class="st">"zensus"</span>, <span class="at">error.ignore =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb17-3"><a></a></span>
+<span id="cb17-4"><a></a><span class="fu">print</span>(metadata_values<span class="sc">$</span><span class="st">`</span><span class="at">Values of GEBEN1</span><span class="st">`</span> <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 5
+  Code        Content Variables Information Object_Type
+  &lt;chr&gt;       &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;       &lt;chr&gt;      
+1 ENERG-GAS   Gas     1         false       Value      
+2 ENERG-HZOEL Heizöl  1         false       Value      
+3 ENERG-KOHLE Kohle   1         false       Value      </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a></a>metadata_variable <span class="ot">&lt;-</span> restatis<span class="sc">::</span><span class="fu">gen_metadata</span>(<span class="st">"GEBEN1"</span>,</span>
+<span id="cb19-2"><a></a>                                            <span class="at">database =</span> <span class="st">"zensus"</span>,</span>
+<span id="cb19-3"><a></a>                                            <span class="at">category =</span> <span class="st">"variable"</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb19-4"><a></a></span>
+<span id="cb19-5"><a></a><span class="fu">print</span>(metadata_variable<span class="sc">$</span>Information)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "wiki\nEnergieträger, der für die Beheizung des Gebäudes verwendet wird. Bei mehreren Energieträgern im Gebäude ist es derjenige, durch den der größte Teil der Wohnfläche beheizt wird.\nBei Passivhäusern wird der Restwärmebedarf durch eine zusätzliche Quelle gedeckt, die hier angegeben wird.\nGas\nHeizöl\nHolz, Holzpellets\nBiomasse (ohne Holz), Biogas:\nAlle durch Pflanzen oder Tiere erzeugten organischen Substanzen, aus denen mittels Verbrennung\nEnergie gewonnen werden kann. Dazu zählen unter anderem Stroh, Biomüll oder Gülle (ohne Holz). Biogas entsteht bei der Vergärung von Biomasse und ist hier auch eingeordnet.\nSolar-/Geothermie, Umweltwärme, Abluftwärme:\nHier wird Sonnenenergie sowie Energie aus Wasser, Luft und Erde mit Hilfe von Kollektoren, Wärmepumpen und -tauschern gewonnen. Dazu zählt auch die Wärme, die aus der Abluft von Gebäuden gewonnen wird (sogenannte Abluftwärme).\nStrom (ohne Wärmepumpe)\nKohle \nFernwärme (verschiedene Energieträger)\nkein Energieträger (keine Heizung)"</code></pre>
+</div>
+</div>
+</section>
+<section id="anwendungsbeispiel-7" class="slide level2">
+<h2>Anwendungsbeispiel</h2>
+<ul>
 <li>Um die prozentualen Anteile der Energieträger pro Gemeinde zu bekommen, sind noch einige Verarbeitungen notwendig</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a></a>heizung_filter <span class="ot">&lt;-</span> heizung <span class="sc">%&gt;%</span> </span>
-<span id="cb19-2"><a></a>                    <span class="fu">filter</span>(<span class="st">`</span><span class="at">2_variable_attribute_label</span><span class="st">`</span> <span class="sc">!=</span> <span class="st">"Insgesamt"</span> <span class="sc">&amp;</span> </span>
-<span id="cb19-3"><a></a>                           value_unit <span class="sc">==</span> <span class="st">"%"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb19-4"><a></a>                    <span class="fu">group_by</span>(<span class="st">`</span><span class="at">1_variable_attribute_code</span><span class="st">`</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb19-5"><a></a>                    <span class="fu">slice_max</span>(value, <span class="at">with_ties =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb19-6"><a></a>                    <span class="fu">ungroup</span>()</span>
-<span id="cb19-7"><a></a></span>
-<span id="cb19-8"><a></a><span class="fu">unique</span>(heizung_filter<span class="sc">$</span><span class="st">`</span><span class="at">2_variable_attribute_label</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a></a>heizung_filter <span class="ot">&lt;-</span> heizung <span class="sc">%&gt;%</span> </span>
+<span id="cb21-2"><a></a>                    <span class="fu">filter</span>(<span class="st">`</span><span class="at">2_variable_attribute_label</span><span class="st">`</span> <span class="sc">!=</span> <span class="st">"Insgesamt"</span> <span class="sc">&amp;</span> </span>
+<span id="cb21-3"><a></a>                           value_unit <span class="sc">==</span> <span class="st">"%"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-4"><a></a>                    <span class="fu">group_by</span>(<span class="st">`</span><span class="at">1_variable_attribute_code</span><span class="st">`</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-5"><a></a>                    <span class="fu">slice_max</span>(value, <span class="at">with_ties =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-6"><a></a>                    <span class="fu">ungroup</span>()</span>
+<span id="cb21-7"><a></a></span>
+<span id="cb21-8"><a></a><span class="fu">unique</span>(heizung_filter<span class="sc">$</span><span class="st">`</span><span class="at">2_variable_attribute_label</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Fernwärme (verschiedene Energieträger)"
 [2] "Heizöl"                                
@@ -689,8 +711,8 @@ Yannik Buhl, Statistisches Bundesamt
 <li>Beispiel:</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a></a><span class="co"># Diese Anfrage ist zu groß =&gt; Parameter job = TRUE ist nötig</span></span>
-<span id="cb21-2"><a></a>large_request <span class="ot">&lt;-</span> restatis<span class="sc">::</span><span class="fu">gen_table</span>(<span class="st">"31111-01-02-4"</span>, <span class="at">database =</span> <span class="st">"regio"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a></a><span class="co"># Diese Anfrage ist zu groß =&gt; Parameter job = TRUE ist nötig</span></span>
+<span id="cb23-2"><a></a>large_request <span class="ot">&lt;-</span> restatis<span class="sc">::</span><span class="fu">gen_table</span>(<span class="st">"31111-01-02-4"</span>, <span class="at">database =</span> <span class="st">"regio"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
 <pre><code>Error: You have requested a table too big for simple download. 
 Consider making a range of smaller requests or use the 
@@ -698,7 +720,7 @@ option to create a job by setting the 'job' parameter
 of 'gen_table()' to TRUE. You can then download the job 
 later (use the function 'gen_list_jobs()' to check its status).</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a></a><span class="co"># large_request &lt;- restatis::gen_table("31111-01-02-4", database = "regio", job = TRUE)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a></a><span class="co"># large_request &lt;- restatis::gen_table("31111-01-02-4", database = "regio", job = TRUE)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="sonstige-funktionalität" class="slide level2">
